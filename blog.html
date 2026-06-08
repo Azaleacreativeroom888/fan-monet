@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — Lumière</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@0;1&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sage:       #66ccaa;
+      --sage-dark:  #4aaa8a;
+      --sage-deep:  #2d7a62;
+      --sage-pale:  #a8e4d0;
+      --sage-mist:  #d4f0e6;
+      --sage-bg:    #e8f7f1;
+      --cream:      #fdf8f0;
+      --parchment:  #f5ede0;
+      --warm-white: #fefcf8;
+      --ink:        #1e2e28;
+      --text:       #2a3a32;
+      --text-soft:  #4a6055;
+      --green-deep: #2a5040;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--warm-white);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+    }
+
+    /* ── ナビ ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(254,252,248,0.93);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(102,204,170,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.55rem;
+      color: var(--sage-deep);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      font-size: 0.6rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: normal;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      vertical-align: middle;
+      margin-left: 0.6rem;
+      opacity: 0.7;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      height: 64px;
+      padding: 0 1.4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 1.4rem; right: 1.4rem;
+      height: 2px;
+      background: var(--sage);
+      transform: scaleX(0);
+      transition: transform 0.35s ease;
+    }
+
+    .nav-links a:hover { color: var(--sage-deep); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--sage-deep); }
+
+    /* ── ページヘッダー ── */
+    .page-header {
+      padding: 8rem 2rem 3.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(102,204,170,0.2);
+      background: var(--warm-white);
+    }
+
+    .page-header-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .page-header h1 {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    .page-header p {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── メインレイアウト ── */
+    .main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 6rem;
+    }
+
+    /* ── 年グループ ── */
+    .year-group { margin-bottom: 3rem; }
+
+    .year-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(102,204,170,0.3);
+      margin-bottom: 0;
+    }
+
+    /* ── 日記エントリ ── */
+    .entry {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 0;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(102,204,170,0.15);
+      align-items: baseline;
+      transition: background 0.2s;
+    }
+
+    .entry:hover {
+      background: rgba(102,204,170,0.04);
+      margin: 0 -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .entry-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      color: var(--sage-dark);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      padding-top: 0.05rem;
+      opacity: 0.85;
+    }
+
+    .entry-text {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    /* ── フッター ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      padding: 2.5rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--sage);
+      opacity: 0.8;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-nav a:hover { color: var(--sage); }
+
+    .footer-copy { font-size: 0.7rem; letter-spacing: 0.1em; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .entry { grid-template-columns: 80px 1fr; }
+      .footer-inner { flex-direction: column; gap: 1.2rem; text-align: center; }
+      .footer-nav { justify-content: center; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Lumière <span>Monet Fan Site</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="blog.html" class="active">Journal</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <p class="page-header-label">Diary</p>
+    <h1>Journal</h1>
+    <p>モネについて、日々感じたこと</p>
+  </header>
+
+  <main class="main">
+
+    <div class="year-group">
+      <p class="year-label">2025</p>
+
+      <div class="entry">
+        <span class="entry-date">12.18</span>
+        <span class="entry-text">オランジュリー美術館の睡蓮、いつ見ても360度に包まれる感じがする。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">11.03</span>
+        <span class="entry-text">積みわらのシリーズ、同じ景色を何十枚も描くって執念だなあと思う。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">10.12</span>
+        <span class="entry-text">晩年の睡蓮、白内障だったとは信じられない色彩。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">09.07</span>
+        <span class="entry-text">ジヴェルニーの庭、秋はダリアが咲き乱れるらしい。行ってみたい。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">08.24</span>
+        <span class="entry-text">モネの絵って、近くで見ると絵の具の塊なのに離れると景色になる不思議。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">07.15</span>
+        <span class="entry-text">睡蓮を真似して描いてみた。水の透明感が全然出なくて難しい……。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">06.02</span>
+        <span class="entry-text">印象派の名前の由来が「印象・日の出」からって今更知った。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">04.30</span>
+        <span class="entry-text">ジヴェルニーは4月から開園。いつかチューリップの季節に行きたい。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">03.11</span>
+        <span class="entry-text">モネは光を描いた画家、と言うより時間を描いた画家かもしれない。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">01.28</span>
+        <span class="entry-text">このファンサイト作り始めた。モネへの愛を形にしたかった。</span>
+      </div>
+    </div>
+
+    <div class="year-group">
+      <p class="year-label">2024</p>
+
+      <div class="entry">
+        <span class="entry-date">12.05</span>
+        <span class="entry-text">「私の庭は最も美しい傑作だ」という言葉、画家本人が言うのが好き。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">10.22</span>
+        <span class="entry-text">日本橋の絵、藤の青紫と水の緑の組み合わせが好きすぎる。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">08.14</span>
+        <span class="entry-text">モネが日本の浮世絵コレクターだったの、なんか嬉しい。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">06.30</span>
+        <span class="entry-text">サン＝ラザール駅のシリーズ、蒸気と光がまじってぼんやりしてる感じが好き。</span>
+      </div>
+      <div class="entry">
+        <span class="entry-date">05.03</span>
+        <span class="entry-text">美術の教科書で「印象・日の出」を見て以来ずっと好き。</span>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Lumière</div>
+      <ul class="footer-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="blog.html">Journal</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="footer-copy">個人ファンサイト — 非商用</p>
+    </div>
+  </footer>
+
+</body>
+</html>
