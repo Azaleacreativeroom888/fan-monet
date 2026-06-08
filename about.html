@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Lumière</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@0;1&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sage:       #66ccaa;
+      --sage-dark:  #4aaa8a;
+      --sage-deep:  #2d7a62;
+      --sage-pale:  #a8e4d0;
+      --sage-mist:  #d4f0e6;
+      --sage-bg:    #e8f7f1;
+      --cream:      #fdf8f0;
+      --parchment:  #f5ede0;
+      --warm-white: #fefcf8;
+      --ink:        #1e2e28;
+      --text:       #2a3a32;
+      --text-soft:  #4a6055;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--warm-white);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+    }
+
+    /* ── ナビ ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(254,252,248,0.93);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(102,204,170,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.55rem;
+      color: var(--sage-deep);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      font-size: 0.6rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: normal;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      vertical-align: middle;
+      margin-left: 0.6rem;
+      opacity: 0.7;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      height: 64px;
+      padding: 0 1.4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 1.4rem; right: 1.4rem;
+      height: 2px;
+      background: var(--sage);
+      transform: scaleX(0);
+      transition: transform 0.35s ease;
+    }
+
+    .nav-links a:hover { color: var(--sage-deep); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--sage-deep); }
+
+    /* ── ページヘッダー ── */
+    .page-header {
+      padding: 8rem 2rem 3.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(102,204,170,0.2);
+    }
+
+    .page-header-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .page-header h1 {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    .page-header p {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+    }
+
+    /* ── メイン ── */
+    .main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 6rem;
+    }
+
+    /* ── セクション見出し ── */
+    .sec-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .sec-head::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(102,204,170,0.4), transparent);
+    }
+
+    /* ── サイト紹介 ── */
+    .intro-card {
+      background: white;
+      border: 1px solid rgba(102,204,170,0.2);
+      border-top: 3px solid var(--sage);
+      padding: 2rem 2rem 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .intro-card p {
+      font-size: 0.93rem;
+      line-height: 2.15;
+      color: var(--text-soft);
+    }
+
+    .intro-card p + p {
+      margin-top: 1rem;
+    }
+
+    /* ── リンクグリッド ── */
+    .link-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      background: white;
+      border: 1px solid rgba(102,204,170,0.2);
+      padding: 0.9rem 1rem;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(102,204,170,0.15);
+      border-color: var(--sage-pale);
+    }
+
+    .link-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--sage-mist);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .link-text { flex: 1; min-width: 0; }
+
+    .link-name {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.15rem;
+    }
+
+    .link-desc {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      opacity: 0.75;
+    }
+
+    .link-arrow {
+      color: var(--sage-dark);
+      opacity: 0.5;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .link-card:hover .link-arrow {
+      transform: translateX(3px);
+      opacity: 1;
+    }
+
+    /* ── フォーム ── */
+    .form-card {
+      background: white;
+      border: 1px solid rgba(102,204,170,0.2);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-intro {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group { margin-bottom: 1.1rem; }
+
+    .form-label {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 0.45rem;
+    }
+
+    .required { color: var(--sage-dark); margin-left: 0.2rem; }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--warm-white);
+      border: 1px solid rgba(102,204,170,0.35);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      padding: 0.65rem 0.9rem;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: #aaa; }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(102,204,170,0.12);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .form-submit {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: var(--sage);
+      color: white;
+      border: none;
+      padding: 0.8rem 2.2rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .form-submit:hover {
+      background: var(--sage-dark);
+      transform: translateY(-1px);
+    }
+
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-success {
+      background: var(--sage-mist);
+      border: 1px solid var(--sage-pale);
+      padding: 1rem 1.2rem;
+      color: var(--sage-deep);
+      font-size: 0.88rem;
+      margin-bottom: 1.2rem;
+      display: none;
+    }
+
+    /* ── フッター ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      padding: 2.5rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--sage);
+      opacity: 0.8;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-nav a:hover { color: var(--sage); }
+    .footer-copy { font-size: 0.7rem; letter-spacing: 0.1em; }
+
+    /* ── レスポンシブ ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .link-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 1.2rem; text-align: center; }
+      .footer-nav { justify-content: center; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Lumière <span>Monet Fan Site</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="blog.html">Journal</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <p class="page-header-label">About</p>
+    <h1>このサイトについて</h1>
+    <p>Lumière — モネの光を追いかけて</p>
+  </header>
+
+  <main class="main">
+
+    <!-- サイト紹介 -->
+    <p class="sec-head">Site</p>
+    <div class="intro-card">
+      <p>
+        「Lumière（リュミエール）」はフランス語で「光」を意味します。
+        印象派の父クロード・モネが生涯かけて追い続けた「光」への憧れを、
+        このサイトに込めました。
+      </p>
+      <p>
+        ここは、モネの絵画にインスパイアされて描いた自作イラストの置き場と、
+        モネについて日々感じたことをつづる個人ファンサイトです。
+        睡蓮、日本橋、ジヴェルニーの庭——モネが愛した景色を、
+        自分なりの筆でなぞってみています。
+      </p>
+      <p>
+        商用利用なし、個人運営の非公式サイトです。
+      </p>
+    </div>
+
+    <!-- リンク -->
+    <p class="sec-head">Links</p>
+    <div class="link-grid">
+
+      <a class="link-card" href="https://bsky.app/profile/azaleaazalea88.bsky.social" target="_blank" rel="noopener">
+        <div class="link-icon">🦋</div>
+        <div class="link-text">
+          <span class="link-name">Bluesky</span>
+          <span class="link-desc">近況・お知らせ</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-card" href="https://www.pixiv.net/" target="_blank" rel="noopener">
+        <div class="link-icon">🎨</div>
+        <div class="link-text">
+          <span class="link-name">Pixiv</span>
+          <span class="link-desc">イラスト投稿</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-card" href="https://azaleacreativeroom888.github.io/Azaleamangaroom/" target="_blank" rel="noopener">
+        <div class="link-icon">📖</div>
+        <div class="link-text">
+          <span class="link-name">漫画掲載サイト</span>
+          <span class="link-desc">オリジナル漫画</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-card" href="https://kakuyomu.jp/users/azalea_azalea72" target="_blank" rel="noopener">
+        <div class="link-icon">✒️</div>
+        <div class="link-text">
+          <span class="link-name">カクヨム</span>
+          <span class="link-desc">小説を掲載</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+    </div>
+
+    <!-- お問い合わせフォーム -->
+    <p class="sec-head">Contact</p>
+    <div class="form-card">
+      <p class="form-intro">ご感想・ご質問はこちらからどうぞ。</p>
+
+      <div class="form-success" id="form-success">
+        ✉️ メッセージを送信しました。ありがとうございます！
+      </div>
+
+      <form id="contact-form" action="https://formspree.io/f/maqvpvoz" method="POST">
+        <div class="form-group">
+          <label class="form-label" for="name">お名前</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="名前">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">メールアドレス<span class="required">*</span></label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="example@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message">メッセージ<span class="required">*</span></label>
+          <textarea class="form-textarea" id="message" name="message" placeholder="メッセージを入力してください…" rows="6" required></textarea>
+        </div>
+        <button class="form-submit" type="submit">送信する</button>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Lumière</div>
+      <ul class="footer-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="blog.html">Journal</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="footer-copy">個人ファンサイト — 非商用</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.disabled = true;
+      btn.textContent = '送信中…';
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        document.getElementById('form-success').style.display = 'block';
+        form.reset();
+        form.style.display = 'none';
+      } else {
+        btn.disabled = false;
+        btn.textContent = '送信する';
+        alert('送信に失敗しました。時間をおいてお試しください。');
+      }
+    });
+  </script>
+
+</body>
+</html>
