@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>企画展レポート — Lumière</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@0;1&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sage:       #66ccaa;
+      --sage-dark:  #4aaa8a;
+      --sage-deep:  #2d7a62;
+      --sage-pale:  #a8e4d0;
+      --sage-mist:  #d4f0e6;
+      --sage-bg:    #e8f7f1;
+      --warm-white: #fefcf8;
+      --parchment:  #f5ede0;
+      --ink:        #1e2e28;
+      --text:       #2a3a32;
+      --text-soft:  #4a6055;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--warm-white);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+    }
+
+    /* ── ナビ ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(254,252,248,0.93);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(102,204,170,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.55rem;
+      color: var(--sage-deep);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      font-size: 0.6rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: normal;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      vertical-align: middle;
+      margin-left: 0.6rem;
+      opacity: 0.7;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      height: 64px;
+      padding: 0 1.4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 1.4rem; right: 1.4rem;
+      height: 2px;
+      background: var(--sage);
+      transform: scaleX(0);
+      transition: transform 0.35s ease;
+    }
+
+    .nav-links a:hover { color: var(--sage-deep); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ── 記事ヘッダー ── */
+    .article-header {
+      padding: 8rem 2rem 3.5rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--text-soft);
+      opacity: 0.65;
+      margin-bottom: 1.8rem;
+    }
+
+    .breadcrumb a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumb a:hover { color: var(--sage-dark); opacity: 1; }
+    .breadcrumb span { margin: 0 0.5rem; }
+
+    /* 企画展タイトル — 大きく目立つ */
+    .exhibition-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .exhibition-title {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    /* メタ情報バッジ */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      color: var(--sage-deep);
+      background: var(--sage-mist);
+      border: 1px solid rgba(102,204,170,0.3);
+      padding: 0.35rem 0.85rem;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, rgba(102,204,170,0.4), transparent);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── 記事本文 ── */
+    .article-body {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .article-body p {
+      font-size: 0.96rem;
+      line-height: 2.3;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── 戻るリンク ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      text-decoration: none;
+      border: 1px solid rgba(102,204,170,0.4);
+      padding: 0.55rem 1.2rem;
+      transition: background 0.25s, border-color 0.25s;
+      margin-bottom: 4rem;
+    }
+
+    .back-link:hover {
+      background: var(--sage-mist);
+      border-color: var(--sage);
+    }
+
+    /* ── フッター ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      padding: 2.5rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--sage);
+      opacity: 0.8;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-nav a:hover { color: var(--sage); }
+    .footer-copy { font-size: 0.7rem; letter-spacing: 0.1em; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .article-header { padding: 7rem 1.2rem 2.5rem; }
+      .article-body { padding: 0 1.2rem 4rem; }
+      .footer-inner { flex-direction: column; gap: 1.2rem; text-align: center; }
+      .footer-nav { justify-content: center; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Lumière <span>Monet Fan Site</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="blog.html">Journal</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <article>
+    <header class="article-header">
+      <p class="breadcrumb">
+        <a href="gallery.html">Gallery</a>
+        <span>›</span>
+        Exhibition Reports
+      </p>
+
+      <p class="exhibition-label">Exhibition Report</p>
+      <h1 class="exhibition-title">モネ 睡蓮のひかり</h1>
+
+      <div class="meta-row">
+        <span class="meta-badge">📅 2025.03.15 – 2025.06.22（100日間）</span>
+        <span class="meta-badge">📍 国立西洋美術館 / 上野</span>
+      </div>
+
+      <div class="divider"></div>
+    </header>
+
+    <div class="article-body">
+
+      <p>
+        ここに感想を書いてください。
+      </p>
+
+      <a class="back-link" href="gallery.html">← Gallery に戻る</a>
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Lumière</div>
+      <ul class="footer-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="blog.html">Journal</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="footer-copy">個人ファンサイト — 非商用</p>
+    </div>
+  </footer>
+
+</body>
+</html>
